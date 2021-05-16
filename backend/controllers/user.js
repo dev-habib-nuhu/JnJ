@@ -61,12 +61,12 @@ export const getUser = async (req,res)=>{
 
 export const authenticateUser = async (req,res)=>{
     try{
-        const {username,password} = req.body;
-        let user = await User.findOne({username:username})
+        const {email,password} = req.body;
+        let user = await User.findOne({email:email})
         if (user){
             let hashed_password = user.password
             if(await bcrypt.compare(password,hashed_password)){
-                user = {fullname:user.fullname,user:user.username,email:user.email}
+                user = {id:user._id,fullname:user.fullname,user:user.username,email:user.email}
                 //Create Json web token
                 const access_token = jwt.sign(user,process.env.ACCESS_TOKEN_SECRET)
                 res.status(200).json({status:true,data:user,access_token,message:'Logged in successfully.'});

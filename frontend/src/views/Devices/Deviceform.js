@@ -28,7 +28,7 @@ const Deviceform = () => {
         <Container>
         <Row>
         <Col lg="3"></Col>
-        <Col lg="6" md="7">
+        <Col lg="6" md="7" sm="12">
             <Card className="bg-secondary shadow border-0">
             <CardHeader className="bg-transparent">
                 <h2 className='text-center'>ADD NEW DEVICE</h2>

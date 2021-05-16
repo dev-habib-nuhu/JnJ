@@ -18,3 +18,23 @@ export const loginReducer = (state={loading:false,error:false,success:false,data
             return state;
     }
 }
+
+
+export const registerReducer = (state={loading:false,error:false,success:false,data:[]},action) =>{
+    switch(action.type){
+        case (actions.REGISTER_REQUEST):
+            state = {...state,loading:true}
+            return state;
+        case (actions.REGISTER_SUCCESS):
+            state = {...state,loading:false,success:true,data:action.payload}
+            return state;
+        case (actions.REGISTER_FALIURE):
+            state = {...state,loading:false,error:true,success:false,data:action.payload}
+            return state;
+        case (actions.REGISTER_CLEAN):
+            state = {...state,loading:false,success:false,error:false,data:[]}
+            return state;
+        default:
+            return state;
+    }
+}

@@ -1,5 +1,5 @@
 
-import React from "react";
+import React,{useEffect} from "react";
 
 import {
   Button,
@@ -16,13 +16,24 @@ import {
   Col,
 } from "reactstrap";
 import { Formik } from 'formik';
-
+import {useHistory} from 'react-router-dom';
+import {useDispatch,useSelector} from 'react-redux';
+import {register} from '../redux/actions/authActions.js';
 const Register = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const Registerstatus = useSelector(state => state.Registerstatus)
 
   const createAccount = (details) =>{
     console.log('Details',details)
+    dispatch(register(details));
   }
 
+  useEffect(()=>{
+    if(Registerstatus.success){
+        console.log('Created')
+    }
+  },[Registerstatus])
   return (
     <>
       <Col lg="6" md="8">
@@ -31,6 +42,11 @@ const Register = () => {
             <div className="text-muted text-center my-2">
               <h3>Create Account</h3>
             </div>
+            {Registerstatus.error ? (
+          <span className='text-danger text-center ml-4'>
+            <small><i className='fa fa-times-circle'> </i> {Registerstatus.error ? Registerstatus?.data : ''}
+            </small>
+          </span>): Registerstatus.success ?(<span className='text-success'><i className='fa fa-check'> </i> {Registerstatus?.data}</span>):''}
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
           <Formik
@@ -153,7 +169,7 @@ const Register = () => {
               </FormGroup>
               <div className="text-center">
                 <Button className="mt-4" color="primary" type="submit" disabled={Object.keys(errors).length === 0 ? false:true}>
-                  Create account <i className='fa fa-spinner fa-spin'> </i>
+                  Create account {Registerstatus.loading && (<i className='fa fa-spinner fa-spin'> </i>)}
                 </Button>
               </div>
             </Form>

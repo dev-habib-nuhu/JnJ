@@ -1,5 +1,5 @@
 
-import React from "react";
+import React,{useEffect} from "react";
 import {
   Button,
   Card,
@@ -15,23 +15,41 @@ import {
   Col,
 } from "reactstrap";
 import {useHistory} from 'react-router-dom';
+import {useDispatch,useSelector} from 'react-redux';
+
 import { Formik } from 'formik';
+import {login, loginClean} from '../redux/actions/authActions.js';
 
 const Login = () => {
   const history = useHistory();
-
+  const dispatch = useDispatch();
+  const Loginstatus = useSelector(state => state.Loginstatus)
   //Request login
   const loginRequest = (details) =>{
     console.log('details',details)
+    dispatch(login(details))
   }
+  
+  useEffect(()=>{
+    dispatch(loginClean())
+  },[dispatch])
 
-
+  useEffect(()=>{
+    if(Loginstatus?.success){
+      history.push('/admin');
+    }
+  },[Loginstatus])
   return (
     <>
       <Col lg="5" md="7">
         <Card className="bg-secondary shadow border-0">
           <CardHeader className="bg-transparent">
             <h2 className='text-center'>SIGN IN</h2>
+            {Loginstatus.error ? (
+          <span className='text-danger text-center ml-4'>
+            <small><i className='fa fa-times-circle'> </i> {Loginstatus.error ? Loginstatus?.data : ''}
+            </small>
+          </span>):(<></>)}
           </CardHeader>
           <CardBody className="px-lg-5 py-lg-5">
             <Formik
@@ -117,7 +135,7 @@ const Login = () => {
               </div>
               <div className="text-center">
                 <Button className="my-4" color="primary" type="submit">
-                  Login
+                  Login {Loginstatus.loading && (<i className='fa fa-spinner fa-spin'> </i>)}
                 </Button>
               </div>
             </Form>
