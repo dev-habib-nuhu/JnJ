@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 import {
     Button,
     Card,
@@ -15,14 +15,45 @@ import {
     Container,
   } from "reactstrap";
   import {useHistory} from 'react-router-dom';
+  import {useSelector,useDispatch} from 'react-redux';
   import { Formik } from 'formik';
-const Deviceform = () => {
-    const history = useHistory();
+  import { toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
-    //Request login
-    const loginRequest = (details) =>{
-      console.log('details',details)
+  import {adddevice, adddeviceclean} from '../../redux/actions/deviceActions';
+
+const Deviceform = () => {
+    toast.configure()
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const Adddevice = useSelector(state => state.Adddevice)
+
+    const saveDevice = (details) =>{
+      dispatch(adddevice(details))
     }
+    
+    useEffect(() => {
+        dispatch(adddeviceclean())
+    }, [dispatch])
+
+    useEffect(()=>{
+        if(Adddevice.success){
+            toast.success(Adddevice?.data?.message, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true
+                });
+        }
+        else if (Adddevice.error){
+            toast.error(Adddevice?.data?.message, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: true
+                });
+        }
+    },[dispatch,Adddevice])
+
+
     return (
         <div>
         <Container>
@@ -40,12 +71,7 @@ const Deviceform = () => {
                     const errors = {};
                     if (!values.device) {
                         errors.device = 'Device name is required';
-                    } else if (
-                        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.device)
-                    ) {
-                        errors.device = 'Invalid device address';
                     }
-
                     if(!values.os){
                         errors.os = 'Device Os is required'
                     }
@@ -55,7 +81,7 @@ const Deviceform = () => {
                     return errors;
                     }}
                     onSubmit={(values) => {
-                    loginRequest(values)
+                    saveDevice(values)
                     }}
                 >
                 {({
@@ -124,7 +150,7 @@ const Deviceform = () => {
 
                 <div className="text-center">
                     <Button className="my-4" color="success" type="submit">
-                    SAVE DEVICE <i className='fa fa-spinner fa-spin'> </i>
+                    SAVE DEVICE {Adddevice.loading && (<i className='fa fa-spinner fa-spin'> </i>)}
                     </Button>
                 </div>
                 </Form>

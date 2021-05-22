@@ -1,4 +1,4 @@
-import Header from 'components/Headers/Header'
+import Header from '../../components/Headers/Header'
 import React from 'react'
 import Devices from './Devices'
 import {useDispatch,useSelector} from 'react-redux';

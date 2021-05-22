@@ -1,6 +1,6 @@
 
 import React from "react";
-import Header from "components/Headers/Header.js";
+import Header from "../components/Headers/Header.js";
 import Devices from "./Devices/Devices.js";
 import Statistics from "./Statistics/Statistics.js";
 

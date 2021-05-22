@@ -1,10 +1,10 @@
 
-import Index from "views/Index.js";
-import Profile from "views/Profile.js";
-import Register from "views/Register.js";
-import Login from "views/Login.js";
-import Mydevices from "views/Devices/Mydevices";
-import Adddevice from "views/Devices/Adddevice";
+import Index from "./views/Index.js";
+import Profile from "./views/Profile.js";
+import Register from "./views/Register.js";
+import Login from "./views/Login.js";
+import Mydevices from "./views/Devices/Mydevices";
+import Adddevice from "./views/Devices/Adddevice";
 
 var routes = [
   {

@@ -14,7 +14,7 @@ import {
   Col,
 } from "reactstrap";
 
-import UserHeader from "components/Headers/UserHeader.js";
+import UserHeader from "../components/Headers/UserHeader.js";
 
 const Profile = () => {
   return (
